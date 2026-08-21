@@ -490,6 +490,7 @@ button {
 
   background:
     radial-gradient(circle at 50% 25%, #313a3b, #101415 62%);
+
   box-shadow:
     0 0 80px rgba(169, 255, 79, 0.08),
     inset 0 0 60px rgba(0, 0, 0, 0.5);
@@ -564,6 +565,10 @@ button {
   transform: rotate(25deg);
 }
 
+/* =========================================================
+   FLOATING CARDS
+========================================================= */
+
 .floating-card {
   position: absolute;
   z-index: 6;
@@ -586,6 +591,7 @@ button {
 }
 
 .floating-card svg {
+  flex-shrink: 0;
   color: var(--accent);
 }
 
@@ -617,6 +623,38 @@ button {
   bottom: 27%;
 
   animation-delay: -1.6s;
+}
+
+/* =========================================================
+   KUBERNETES FLOATING CARD
+========================================================= */
+
+.card-kubernetes {
+  right: 9%;
+  top: 43%;
+
+  animation-delay: -2.2s;
+}
+
+.kubernetes-logo {
+  flex-shrink: 0;
+
+  width: 19px;
+  height: 19px;
+
+  object-fit: contain;
+
+  filter: brightness(0) saturate(100%)
+    invert(86%) sepia(38%) saturate(748%)
+    hue-rotate(48deg) brightness(105%);
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.card-kubernetes:hover .kubernetes-logo {
+  transform: scale(1.1) rotate(8deg);
 }
 
 .card-cicd {
@@ -776,6 +814,15 @@ button {
   border-radius: 9px;
 
   color: var(--accent);
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.skill-card:hover .skill-icon {
+  border-color: rgba(169, 255, 79, 0.35);
+  background: var(--accent-soft);
 }
 
 .skill-number {
@@ -828,6 +875,55 @@ button {
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.skill-card:hover .tag-list span {
+  border-color: rgba(169, 255, 79, 0.16);
+}
+
+/* =========================================================
+   PROJECT STACK
+========================================================= */
+
+.project-main .tag-list {
+  max-width: 800px;
+}
+
+.project-main .tag-list span {
+  color: #849093;
+}
+
+/* =========================================================
+   PROJECT LINKS
+========================================================= */
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 22px;
+
+  color: var(--accent);
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  transition:
+    gap 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.project-link:hover {
+  gap: 11px;
+  opacity: 0.8;
 }
 
 /* =========================================================
@@ -1240,6 +1336,10 @@ button {
   }
 }
 
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
 @media (max-width: 720px) {
   .navbar {
     height: 68px;
@@ -1325,6 +1425,11 @@ button {
     right: -5%;
   }
 
+  .card-kubernetes {
+    right: -4%;
+    top: 42%;
+  }
+
   .card-cicd {
     left: 5%;
   }
@@ -1391,6 +1496,15 @@ button {
 
   .project-main p {
     font-size: 11px;
+  }
+
+  .project-link {
+    margin-top: 18px;
+    font-size: 9px;
+  }
+
+  .project-main .tag-list {
+    margin-top: 18px;
   }
 
   .terminal-body {

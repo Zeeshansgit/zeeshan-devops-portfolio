@@ -18,6 +18,70 @@ import {
 } from "lucide-react";
 import "./App.css";
 
+/* =========================================================
+   KUBERNETES ICON
+========================================================= */
+
+function KubernetesIcon({ size = 18 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 2.2L19.9 6.75V15.8L12 20.35L4.1 15.8V6.75L12 2.2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M12 6.1V17.9"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M6.9 9.05L17.1 14.95"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M17.1 9.05L6.9 14.95"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+
+      <circle
+        cx="12"
+        cy="12"
+        r="2.15"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+
+      <circle cx="12" cy="4.15" r="1.05" fill="currentColor" />
+      <circle cx="18.8" cy="8.1" r="1.05" fill="currentColor" />
+      <circle cx="18.8" cy="15.9" r="1.05" fill="currentColor" />
+      <circle cx="12" cy="19.85" r="1.05" fill="currentColor" />
+      <circle cx="5.2" cy="15.9" r="1.05" fill="currentColor" />
+      <circle cx="5.2" cy="8.1" r="1.05" fill="currentColor" />
+    </svg>
+  );
+}
+
+/* =========================================================
+   SKILLS
+========================================================= */
+
 const skills = [
   {
     icon: Cloud,
@@ -33,21 +97,28 @@ const skills = [
   },
   {
     icon: Container,
-    title: "Containers",
-    text: "Containerizing applications and managing repeatable deployment environments using modern container tooling.",
-    tags: ["Docker", "Docker Compose", "Images", "Registry"],
+    title: "Containerization & Container Orchestration",
+    text: "Containerizing applications and deploying them through repeatable orchestration workflows using Docker and Kubernetes.",
+    tags: [
+      "Docker",
+      "Docker Compose",
+      "Kubernetes",
+      "AWS EKS",
+      "Deployments",
+      "Services",
+    ],
   },
   {
     icon: MonitorCog,
-    title: "Monitoring",
+    title: "Monitoring & Observability",
     text: "Creating visibility into infrastructure and applications through metrics, logs, alerts, and operational dashboards.",
     tags: ["Prometheus", "Grafana", "Logs", "Alerts"],
   },
   {
     icon: Terminal,
-    title: "Automation",
-    text: "Automating repetitive infrastructure and operational tasks with scripts and infrastructure-as-code practices.",
-    tags: ["Bash", "Python", "Terraform", "Ansible"],
+    title: "Infrastructure Automation",
+    text: "Automating infrastructure and operational tasks with scripts, configuration management, and infrastructure-as-code practices.",
+    tags: ["Terraform", "Ansible", "Bash", "Python"],
   },
   {
     icon: ShieldCheck,
@@ -56,6 +127,10 @@ const skills = [
     tags: ["IAM", "SSH", "Secrets", "Backups"],
   },
 ];
+
+/* =========================================================
+   PROJECTS
+========================================================= */
 
 const projects = [
   {
@@ -115,6 +190,10 @@ const projects = [
   },
 ];
 
+/* =========================================================
+   DELIVERY WORKFLOW
+========================================================= */
+
 const workflow = [
   {
     icon: Code2,
@@ -132,6 +211,11 @@ const workflow = [
     text: "Applications are packaged into consistent container images.",
   },
   {
+    icon: KubernetesIcon,
+    title: "Orchestrate",
+    text: "Containerized workloads are managed through Kubernetes deployments and services.",
+  },
+  {
     icon: Cloud,
     title: "Deploy",
     text: "Infrastructure and applications are deployed into cloud environments.",
@@ -143,10 +227,19 @@ const workflow = [
   },
 ];
 
+/* =========================================================
+   APP
+========================================================= */
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const heroRef = useRef<HTMLElement | null>(null);
+
+  const heroRef = useRef(null);
+
+  /* =======================================================
+     SCROLL
+  ======================================================= */
 
   useEffect(() => {
     const handleScroll = () => {
@@ -160,12 +253,16 @@ function App() {
     };
   }, []);
 
+  /* =======================================================
+     HERO MOUSE MOVEMENT
+  ======================================================= */
+
   useEffect(() => {
     const hero = heroRef.current;
 
     if (!hero) return;
 
-    const handleMove = (event: MouseEvent) => {
+    const handleMove = (event) => {
       const rect = hero.getBoundingClientRect();
 
       const x = (event.clientX - rect.left) / rect.width - 0.5;
@@ -182,11 +279,19 @@ function App() {
     };
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
     <div className="app-wrapper">
-      <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
+      {/* =====================================================
+          NAVIGATION
+      ====================================================== */}
+
+      <header
+        className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}
+      >
         <a href="#home" className="brand" onClick={closeMenu}>
           <span className="brand-mark">Z</span>
           <span>ZEESHAN</span>
@@ -196,22 +301,27 @@ function App() {
           <a href="#home" onClick={closeMenu}>
             Home
           </a>
+
           <a href="#about" onClick={closeMenu}>
             About
           </a>
+
           <a href="#skills" onClick={closeMenu}>
             Skills
           </a>
+
           <a href="#projects" onClick={closeMenu}>
             Projects
           </a>
+
           <a href="#contact" onClick={closeMenu}>
             Contact
           </a>
         </nav>
 
-        <a href="#contact" className="nav-cta">
-          Let's Talk <ArrowUpRight size={15} />
+        <a href="#contact" className="nav-cta" onClick={closeMenu}>
+          Let's Talk
+          <ArrowUpRight size={15} />
         </a>
 
         <button
@@ -224,6 +334,10 @@ function App() {
       </header>
 
       <main>
+        {/* =====================================================
+            HERO
+        ====================================================== */}
+
         <section className="hero" id="home" ref={heroRef}>
           <div className="hero-grid" />
 
@@ -274,11 +388,15 @@ function App() {
                 </div>
 
                 <div>
-                  <strong>OPS</strong>
-                  <span>Reliability</span>
+                  <strong>K8S</strong>
+                  <span>Orchestration</span>
                 </div>
               </div>
             </div>
+
+            {/* =================================================
+                HERO SPHERE
+            ================================================== */}
 
             <div className="hero-visual">
               <div className="visual-orbit orbit-one" />
@@ -296,27 +414,47 @@ function App() {
                 <div className="profile-ring" />
               </div>
 
+              {/* CLOUD */}
+
               <div className="floating-card card-cloud">
                 <Cloud size={18} />
+
                 <div>
                   <strong>Cloud</strong>
                   <span>Infrastructure</span>
                 </div>
               </div>
 
+              {/* DOCKER */}
+
               <div className="floating-card card-container">
                 <Container size={18} />
+
                 <div>
                   <strong>Docker</strong>
                   <span>Containers</span>
                 </div>
               </div>
 
+              {/* CI/CD */}
+
               <div className="floating-card card-cicd">
                 <Zap size={18} />
+
                 <div>
                   <strong>CI/CD</strong>
                   <span>Automated</span>
+                </div>
+              </div>
+
+              {/* KUBERNETES */}
+
+              <div className="floating-card card-kubernetes">
+                <KubernetesIcon size={19} />
+
+                <div>
+                  <strong>Kubernetes</strong>
+                  <span>Orchestration</span>
                 </div>
               </div>
             </div>
@@ -327,6 +465,10 @@ function App() {
             <ArrowDown size={16} />
           </a>
         </section>
+
+        {/* =====================================================
+            ABOUT
+        ====================================================== */}
 
         <section className="about-section section" id="about">
           <div className="section-label">01 / ABOUT</div>
@@ -354,8 +496,9 @@ function App() {
 
               <p>
                 From cloud environments and Linux systems to CI/CD pipelines,
-                containers, automation, and monitoring, I approach each layer
-                as part of one connected delivery system.
+                containers, Kubernetes orchestration, automation, and
+                monitoring, I approach each layer as part of one connected
+                delivery system.
               </p>
 
               <div className="about-checks">
@@ -363,23 +506,35 @@ function App() {
                   <CheckCircle2 size={18} />
                   <span>Reliable deployment workflows</span>
                 </div>
+
                 <div>
                   <CheckCircle2 size={18} />
                   <span>Automated infrastructure operations</span>
                 </div>
+
                 <div>
                   <CheckCircle2 size={18} />
                   <span>Cloud-first deployment architecture</span>
+                </div>
+
+                <div>
+                  <CheckCircle2 size={18} />
+                  <span>Kubernetes-based container orchestration</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* =====================================================
+            SKILLS
+        ====================================================== */}
+
         <section className="skills-section section" id="skills">
           <div className="section-heading">
             <div>
               <div className="section-label">02 / CAPABILITIES</div>
+
               <h2>
                 What I <span>build.</span>
               </h2>
@@ -387,12 +542,13 @@ function App() {
 
             <p>
               A practical DevOps toolkit covering infrastructure, automation,
-              deployment, containers, and operational visibility.
+              deployment, containers, orchestration, and operational
+              visibility.
             </p>
           </div>
 
           <div className="skills-grid">
-            {skills.map((skill) => {
+            {skills.map((skill, index) => {
               const Icon = skill.icon;
 
               return (
@@ -402,10 +558,11 @@ function App() {
                   </div>
 
                   <div className="skill-number">
-                    {String(skills.indexOf(skill) + 1).padStart(2, "0")}
+                    {String(index + 1).padStart(2, "0")}
                   </div>
 
                   <h3>{skill.title}</h3>
+
                   <p>{skill.text}</p>
 
                   <div className="tag-list">
@@ -419,6 +576,10 @@ function App() {
           </div>
         </section>
 
+        {/* =====================================================
+            DELIVERY WORKFLOW
+        ====================================================== */}
+
         <section className="workflow-section section">
           <div className="section-label">03 / DELIVERY FLOW</div>
 
@@ -431,7 +592,8 @@ function App() {
 
             <p>
               A repeatable delivery process connecting source control,
-              automation, containers, cloud infrastructure, and monitoring.
+              automation, containers, Kubernetes orchestration, cloud
+              infrastructure, and monitoring.
             </p>
           </div>
 
@@ -445,14 +607,19 @@ function App() {
                     <div className="workflow-icon">
                       <Icon size={20} />
                     </div>
+
                     {index !== workflow.length - 1 && (
                       <div className="workflow-connector" />
                     )}
                   </div>
 
                   <div className="workflow-content">
-                    <span>0{index + 1}</span>
+                    <span>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
                     <h3>{item.title}</h3>
+
                     <p>{item.text}</p>
                   </div>
                 </div>
@@ -461,10 +628,15 @@ function App() {
           </div>
         </section>
 
+        {/* =====================================================
+            PROJECTS
+        ====================================================== */}
+
         <section className="projects-section section" id="projects">
           <div className="section-heading">
             <div>
               <div className="section-label">04 / SELECTED WORK</div>
+
               <h2>
                 Selected <span>projects.</span>
               </h2>
@@ -472,7 +644,8 @@ function App() {
 
             <p>
               Projects that demonstrate infrastructure, automation,
-              containerization, deployment, and monitoring capabilities.
+              containerization, orchestration, deployment, and monitoring
+              capabilities.
             </p>
           </div>
 
@@ -483,6 +656,7 @@ function App() {
 
                 <div className="project-main">
                   <h3>{project.title}</h3>
+
                   <p>{project.description}</p>
 
                   <div className="tag-list">
@@ -490,6 +664,17 @@ function App() {
                       <span key={technology}>{technology}</span>
                     ))}
                   </div>
+
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link"
+                  >
+                    <Github size={15} />
+                    View on GitHub
+                    <ArrowUpRight size={14} />
+                  </a>
                 </div>
 
                 <div className="project-arrow">
@@ -499,6 +684,10 @@ function App() {
             ))}
           </div>
         </section>
+
+        {/* =====================================================
+            TERMINAL
+        ====================================================== */}
 
         <section className="terminal-section section">
           <div className="terminal-window">
@@ -518,12 +707,16 @@ function App() {
               <p>
                 <span className="terminal-green">$</span> whoami
               </p>
-              <p className="terminal-output">devops-engineer</p>
+
+              <p className="terminal-output">
+                devops-engineer
+              </p>
 
               <p>
                 <span className="terminal-green">$</span> systemctl status
                 delivery
               </p>
+
               <p className="terminal-output terminal-success">
                 ● delivery.service — active (running)
               </p>
@@ -531,8 +724,17 @@ function App() {
               <p>
                 <span className="terminal-green">$</span> docker ps
               </p>
+
               <p className="terminal-output">
                 api &nbsp; frontend &nbsp; nginx &nbsp; monitoring
+              </p>
+
+              <p>
+                <span className="terminal-green">$</span> kubectl get pods
+              </p>
+
+              <p className="terminal-output terminal-success">
+                api &nbsp; frontend &nbsp; redis &nbsp; monitoring
               </p>
 
               <p>
@@ -542,6 +744,10 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* =====================================================
+            CONTACT
+        ====================================================== */}
 
         <section className="contact-section section" id="contact">
           <div className="section-label">05 / CONTACT</div>
@@ -556,22 +762,25 @@ function App() {
 
               <p>
                 Looking for someone who can take ownership of infrastructure,
-                deployment automation, cloud operations, and DevOps
-                workflows?
+                deployment automation, cloud operations, and DevOps workflows?
               </p>
             </div>
 
             <div className="contact-actions">
-              <a href="mailto:zeeshanahmed.mohd6@gmail.com" className="contact-link">
+              <a
+                href="mailto:zeeshanahmed.mohd6@gmail.com"
+                className="contact-link"
+              >
                 <span>
                   <Mail size={20} />
                   zeeshanahmed.mohd6@gmail.com
                 </span>
+
                 <ArrowUpRight size={21} />
               </a>
 
               <a
-                href="https://github.com/"
+                href="https://github.com/Zeeshansgit"
                 target="_blank"
                 rel="noreferrer"
                 className="contact-link"
@@ -580,11 +789,12 @@ function App() {
                   <Github size={20} />
                   GitHub
                 </span>
+
                 <ArrowUpRight size={21} />
               </a>
 
               <a
-                href="https://www.linkedin.com/"
+                href="https://www.linkedin.com/in/zeeshan-ahmed-09a0b7277/"
                 target="_blank"
                 rel="noreferrer"
                 className="contact-link"
@@ -593,6 +803,7 @@ function App() {
                   <Linkedin size={20} />
                   LinkedIn
                 </span>
+
                 <ArrowUpRight size={21} />
               </a>
             </div>
@@ -600,13 +811,17 @@ function App() {
         </section>
       </main>
 
+      {/* =====================================================
+          FOOTER
+      ====================================================== */}
+
       <footer className="footer">
         <div className="footer-brand">
           <span className="brand-mark">Z</span>
           <span>ZEESHAN</span>
         </div>
 
-        <span>DEVOPS / CLOUD / AUTOMATION</span>
+        <span>DEVOPS / CLOUD / AUTOMATION / KUBERNETES</span>
 
         <span>© {new Date().getFullYear()} ZEESHAN</span>
       </footer>
