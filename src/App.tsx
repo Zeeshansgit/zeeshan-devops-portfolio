@@ -794,7 +794,7 @@ function App() {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/zeeshan-ahmed-09a0b7277/"
+                href="https://www.linkedin.com/in/zeeshan-ahmed-21b72a345/"
                 target="_blank"
                 rel="noreferrer"
                 className="contact-link"
@@ -817,11 +817,11 @@ function App() {
 
       <footer className="footer">
         <div className="footer-brand">
-          <span className="brand-mark">Z</span>
+          <span className="brand-mark">Z.</span>
           <span>ZEESHAN</span>
         </div>
 
-        <span>DEVOPS / CLOUD / AUTOMATION / KUBERNETES</span>
+        <span>DEVOPS / CLOUD / AUTOMATION</span>
 
         <span>© {new Date().getFullYear()} ZEESHAN</span>
       </footer>
