@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import {
   Activity,
-  ArrowDown,
   ArrowUpRight,
-  Box,
   BriefcaseBusiness,
+  Box,
   CheckCircle2,
   Cloud,
   Code2,
@@ -17,7 +16,6 @@ import {
   Mail,
   Menu,
   MonitorCog,
-  Network,
   Rocket,
   Server,
   ShieldCheck,
