@@ -1,69 +1,105 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  Activity,
   ArrowDown,
   ArrowUpRight,
+  Box,
+  BriefcaseBusiness,
   CheckCircle2,
   Cloud,
   Code2,
   Container,
+  Download,
+  ExternalLink,
   Github,
+  Layers3,
   Linkedin,
   Mail,
   Menu,
   MonitorCog,
+  Network,
+  Rocket,
+  Server,
   ShieldCheck,
   Terminal,
+  UserRound,
   X,
   Zap,
 } from "lucide-react";
 import "./App.css";
 
+const profile = {
+  name: "Mohammed Zeeshan Ahmed",
+  shortName: "Zeeshan Ahmed",
+  role: "DevOps Engineer",
+  location: "Hyderabad, India",
+  email: "zeeshanahmed.mohd6@gmail.com",
+  linkedin: "https://www.linkedin.com/in/zeeshan-ahmed-21b72a345/",
+  github: "https://github.com/Zeeshansgit",
+};
+
+const navigation = [
+  { id: "about", label: "About", icon: UserRound },
+  { id: "skills", label: "Skills", icon: Layers3 },
+  { id: "projects", label: "Projects", icon: Box },
+  { id: "experience", label: "Experience", icon: BriefcaseBusiness },
+  { id: "terminal", label: "Terminal", icon: Terminal },
+  { id: "contact", label: "Contact", icon: Mail },
+];
+
 const skills = [
   {
     icon: Cloud,
-    title: "Cloud Infrastructure",
-    text: "Designing and managing scalable cloud infrastructure, networking, compute, storage, and deployment environments.",
-    tags: ["AWS", "EC2", "VPC", "IAM", "S3"],
+    title: "Cloud",
+    description:
+      "Cloud infrastructure, compute, networking, storage and deployment environments.",
+    tags: ["Microsoft Azure", "AWS", "EC2", "VPC", "IAM"],
   },
   {
-    icon: Zap,
-    title: "CI/CD Automation",
-    text: "Building reliable delivery pipelines that automate testing, builds, deployments, and release workflows.",
-    tags: ["GitHub Actions", "Azure DevOps", "Git", "CI/CD"],
+    icon: Rocket,
+    title: "CI / CD",
+    description:
+      "Automated delivery workflows for building, testing, scanning and deploying applications.",
+    tags: ["Azure DevOps", "GitHub Actions", "CI/CD", "YAML"],
   },
   {
     icon: Container,
     title: "Containers",
-    text: "Containerizing applications and managing repeatable deployment environments using modern container tooling.",
-    tags: ["Docker", "Kubernetes", "Compose", "Registry"],
+    description:
+      "Containerized application workloads and repeatable deployment environments.",
+    tags: ["Docker", "Kubernetes", "AKS", "EKS"],
+  },
+  {
+    icon: Server,
+    title: "Infrastructure",
+    description:
+      "Infrastructure automation and configuration using infrastructure-as-code practices.",
+    tags: ["Terraform", "Linux", "VM", "Networking"],
   },
   {
     icon: MonitorCog,
-    title: "Monitoring",
-    text: "Creating visibility into infrastructure and applications through metrics, logs, alerts, and operational dashboards.",
-    tags: ["Prometheus", "Grafana", "Metrics", "Alerts"],
-  },
-  {
-    icon: Terminal,
-    title: "Infrastructure as Code",
-    text: "Automating infrastructure provisioning and maintaining consistent, repeatable environments through declarative configuration.",
-    tags: ["Terraform", "IaC", "Automation", "Cloud"],
+    title: "Observability",
+    description:
+      "Infrastructure and application visibility through metrics, dashboards and alerts.",
+    tags: ["Prometheus", "Grafana", "Monitoring", "Alerts"],
   },
   {
     icon: ShieldCheck,
-    title: "Security & Reliability",
-    text: "Applying secure configuration, access controls, scanning, deployment practices, and reliability-focused operations.",
-    tags: ["IAM", "SonarQube", "Trivy", "Secrets"],
+    title: "DevSecOps",
+    description:
+      "Security scanning and secure delivery practices integrated into deployment workflows.",
+    tags: ["SonarQube", "Trivy", "IAM", "Secrets"],
   },
 ];
 
 const projects = [
   {
     number: "01",
-    title: "Wanderlust — MERN DevOps & Kubernetes Deployment",
+    title: "Wanderlust",
+    subtitle: "Three-Tier MERN DevOps & Kubernetes Deployment",
     description:
-      "Deployed a three-tier MERN application on AWS EKS using Kubernetes Deployments, Services, and namespaces. Containerized the frontend and backend with Docker, provisioned AWS infrastructure with Terraform, and implemented automated CI/CD and GitOps delivery.",
-    stack: [
+      "Deployed a three-tier MERN application on AWS EKS using Kubernetes Deployments, Services and namespaces. Containerized frontend and backend workloads, provisioned infrastructure with Terraform, and implemented automated CI/CD and GitOps delivery.",
+    technologies: [
       "AWS EKS",
       "Kubernetes",
       "Docker",
@@ -74,17 +110,16 @@ const projects = [
       "Grafana",
       "SonarQube",
       "Trivy",
-      "MongoDB",
-      "Redis",
     ],
     github: "https://github.com/Zeeshansgit/Wanderlust-project",
   },
   {
     number: "02",
-    title: "Spring Pet Clinic — CI/CD & Kubernetes Deployment",
+    title: "Spring Pet Clinic",
+    subtitle: "CI/CD Pipeline & Kubernetes Deployment",
     description:
-      "Built an end-to-end CI/CD workflow for automated build, testing, containerization, security scanning, and Kubernetes deployment. Integrated Maven, SonarQube, Trivy, and Nexus Repository while deploying the application on Kubernetes.",
-    stack: [
+      "Built an end-to-end CI/CD pipeline for automated build, testing, containerization, security scanning and Kubernetes deployment. Integrated Maven, SonarQube, Trivy and Nexus Repository.",
+    technologies: [
       "Jenkins",
       "Maven",
       "Docker",
@@ -98,10 +133,11 @@ const projects = [
   },
   {
     number: "03",
-    title: "Terraform Bitbucket — Infrastructure Automation",
+    title: "Terraform Bitbucket",
+    subtitle: "Infrastructure Automation",
     description:
-      "Provisioned AWS infrastructure including EC2, VPC, and subnets using reusable Terraform configurations. Automated infrastructure provisioning through Bitbucket Pipelines to create consistent and repeatable environment deployments.",
-    stack: [
+      "Provisioned AWS infrastructure including EC2, VPC and subnets using reusable Terraform configurations and automated infrastructure provisioning through Bitbucket Pipelines.",
+    technologies: [
       "Terraform",
       "AWS",
       "EC2",
@@ -114,512 +150,606 @@ const projects = [
   },
 ];
 
-const workflow = [
+const experience = [
   {
-    icon: Code2,
-    title: "Source",
-    text: "Code is maintained in version control with a clear and repeatable workflow.",
+    period: "DEC 2025 — APR 2026",
+    company: "Nafa Barter Pvt Ltd",
+    role: "DevOps Engineer",
+    description:
+      "Worked on cloud infrastructure, CI/CD automation, containerization, deployment workflows and monitoring. Contributed to automated delivery pipelines and operational infrastructure across cloud and hosting environments.",
+    technologies: [
+      "Azure DevOps",
+      "GitHub Actions",
+      "Docker",
+      "Azure",
+      "Terraform",
+      "Nginx Proxy Manager",
+      "Prometheus",
+      "Grafana",
+    ],
+  },
+];
+
+const commands = [
+  {
+    command: "whoami",
+    output: "devops-engineer",
   },
   {
-    icon: Zap,
-    title: "Build",
-    text: "Automated pipelines validate changes and prepare deployment artifacts.",
+    command: "cloud --status",
+    output: "azure / aws / operational",
   },
   {
-    icon: Container,
-    title: "Package",
-    text: "Applications are packaged into consistent container images.",
+    command: "containers --runtime",
+    output: "docker / kubernetes",
   },
   {
-    icon: Cloud,
-    title: "Deploy",
-    text: "Infrastructure and applications are deployed into cloud environments.",
-  },
-  {
-    icon: MonitorCog,
-    title: "Monitor",
-    text: "Metrics, logs, and alerts provide continuous operational visibility.",
+    command: "delivery --pipeline",
+    output: "automated / repeatable / monitored",
   },
 ];
 
 function App() {
+  const [activeSection, setActiveSection] = useState("about");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const heroRef = useRef<HTMLElement | null>(null);
+  const [time, setTime] = useState("");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+    const updateTime = () => {
+      setTime(
+        new Intl.DateTimeFormat("en-IN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        }).format(new Date())
+      );
     };
 
-    window.addEventListener("scroll", handleScroll);
+    updateTime();
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    const interval = window.setInterval(updateTime, 1000);
+
+    return () => window.clearInterval(interval);
   }, []);
 
   useEffect(() => {
-    const hero = heroRef.current;
+    const sections = navigation
+      .map((item) => document.getElementById(item.id))
+      .filter(Boolean);
 
-    if (!hero) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
-    const handleMove = (event: MouseEvent) => {
-      const rect = hero.getBoundingClientRect();
+        if (visible[0]?.target.id) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-20% 0px -55% 0px",
+        threshold: [0.05, 0.2, 0.5],
+      }
+    );
 
-      const x = (event.clientX - rect.left) / rect.width - 0.5;
-      const y = (event.clientY - rect.top) / rect.height - 0.5;
+    sections.forEach((section) => {
+      if (section) observer.observe(section);
+    });
 
-      hero.style.setProperty("--mouse-x", `${x}`);
-      hero.style.setProperty("--mouse-y", `${y}`);
-    };
-
-    const handleLeave = () => {
-      hero.style.setProperty("--mouse-x", "0");
-      hero.style.setProperty("--mouse-y", "0");
-    };
-
-    hero.addEventListener("mousemove", handleMove);
-    hero.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      hero.removeEventListener("mousemove", handleMove);
-      hero.removeEventListener("mouseleave", handleLeave);
-    };
+    return () => observer.disconnect();
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
+  const goTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    setMenuOpen(false);
+  };
 
   return (
-    <div className="app-wrapper">
-      {/* Ambient background */}
-      <div className="ambient ambient-one" />
-      <div className="ambient ambient-two" />
+    <div className="site-shell">
+      {/* Decorative 3D background */}
+      <div className="geometric-background" aria-hidden="true">
+        <div className="geo geo-orange geo-one" />
+        <div className="geo geo-red geo-two" />
+        <div className="geo geo-cyan geo-three" />
+        <div className="geo geo-blue geo-four" />
+        <div className="geo geo-orange geo-five" />
+        <div className="geo geo-cyan geo-six" />
+        <div className="geo-triangle" />
+      </div>
 
-      {/* NAVIGATION */}
-      <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
-        <a href="#home" className="brand" onClick={closeMenu}>
-          <span className="brand-mark">Z.</span>
-          <span>ZEESHAN</span>
-        </a>
-
-        <nav className={`nav-links ${menuOpen ? "nav-open" : ""}`}>
-          <a href="#home" onClick={closeMenu}>
-            Home
-          </a>
-          <a href="#about" onClick={closeMenu}>
-            About
-          </a>
-          <a href="#skills" onClick={closeMenu}>
-            Skills
-          </a>
-          <a href="#projects" onClick={closeMenu}>
-            Projects
-          </a>
-          <a href="#contact" onClick={closeMenu}>
-            Contact
-          </a>
-        </nav>
-
-        <a href="#contact" className="nav-cta">
-          Let's Talk
-          <ArrowUpRight size={15} />
-        </a>
+      {/* Mobile top bar */}
+      <header className="mobile-header">
+        <button className="mobile-brand" onClick={() => goTo("about")}>
+          <span>Z.</span>
+          <strong>ZEESHAN</strong>
+        </button>
 
         <button
-          className="menu-button"
+          className="mobile-menu"
           aria-label="Toggle navigation"
           onClick={() => setMenuOpen((value) => !value)}
         >
-          {menuOpen ? <X size={23} /> : <Menu size={23} />}
+          {menuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </header>
 
-      <main>
-        {/* HERO */}
-        <section className="hero" id="home" ref={heroRef}>
-          <div className="hero-grid" />
-
-          <div className="hero-glow hero-glow-one" />
-          <div className="hero-glow hero-glow-two" />
-          <div className="hero-glow hero-glow-three" />
-
-          <div className="hero-content">
-            <div className="hero-copy">
-              <div className="eyebrow">
-                <span className="status-dot" />
-                DEVOPS ENGINEER
-              </div>
-
-              <h1>
-                BUILD.
-                <br />
-                <span>DEPLOY.</span>
-                <br />
-                <strong>REPEAT.</strong>
-              </h1>
-
-              <p className="hero-description">
-                I build reliable cloud infrastructure, automate delivery
-                pipelines, containerize applications, and create deployment
-                systems designed for speed, consistency, and reliability.
-              </p>
-
-              <div className="hero-actions">
-                <a href="#projects" className="primary-button">
-                  View Projects
-                  <ArrowUpRight size={17} />
-                </a>
-
-                <a href="#contact" className="secondary-button">
-                  Contact Me
-                </a>
-              </div>
-
-              <div className="hero-metrics">
-                <div>
-                  <strong>CI/CD</strong>
-                  <span>Automation</span>
-                </div>
-
-                <div>
-                  <strong>CLOUD</strong>
-                  <span>Infrastructure</span>
-                </div>
-
-                <div>
-                  <strong>OPS</strong>
-                  <span>Reliability</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 3D HERO */}
-            <div className="hero-visual">
-              <div className="visual-glow" />
-
-              <div className="visual-orbit orbit-one" />
-              <div className="visual-orbit orbit-two" />
-              <div className="visual-orbit orbit-three" />
-
-              <div className="profile-platform">
-                <div className="profile-depth depth-one" />
-                <div className="profile-depth depth-two" />
-
-                <div className="profile-image">
-                  <div className="profile-placeholder">
-                    <Terminal size={72} strokeWidth={1} />
-                    <span>DEVOPS</span>
-                  </div>
-                </div>
-
-                <div className="profile-ring ring-one" />
-                <div className="profile-ring ring-two" />
-
-                <div className="core-dot" />
-              </div>
-
-              {/* Floating cards */}
-              <div className="floating-card card-cloud">
-                <Cloud size={18} />
-
-                <div>
-                  <strong>Cloud</strong>
-                  <span>Infrastructure</span>
-                </div>
-              </div>
-
-              <div className="floating-card card-container">
-                <Container size={18} />
-
-                <div>
-                  <strong>Docker</strong>
-                  <span>Containers</span>
-                </div>
-              </div>
-
-              <div className="floating-card card-kubernetes">
-                <span className="k8s-symbol">K</span>
-
-                <div>
-                  <strong>Kubernetes</strong>
-                  <span>Orchestration</span>
-                </div>
-              </div>
-
-              <div className="floating-card card-cicd">
-                <Zap size={18} />
-
-                <div>
-                  <strong>CI/CD</strong>
-                  <span>Automated</span>
-                </div>
-              </div>
-            </div>
+      <div className="dashboard">
+        {/* =====================================================
+            SIDEBAR
+        ====================================================== */}
+        <aside className={`sidebar ${menuOpen ? "sidebar-open" : ""}`}>
+          <div className="sidebar-colors">
+            <span className="color-blue" />
+            <span className="color-green" />
+            <span className="color-yellow" />
+            <span className="color-red" />
           </div>
 
-          <a href="#about" className="scroll-indicator">
-            <span>SCROLL TO EXPLORE</span>
-            <ArrowDown size={16} />
-          </a>
-        </section>
+          <div className="sidebar-divider" />
 
-        {/* ABOUT */}
-        <section className="about-section section" id="about">
-          <div className="section-label">01 / ABOUT</div>
-
-          <div className="about-layout">
-            <div>
-              <h2>
-                Infrastructure
-                <br />
-                <span>that works.</span>
-              </h2>
-            </div>
-
-            <div className="about-copy">
-              <p className="large-text">
-                DevOps is about creating a reliable path from code to
-                production.
-              </p>
-
-              <p>
-                My focus is on building systems that make deployments
-                predictable, infrastructure manageable, and operational
-                workflows easier to maintain.
-              </p>
-
-              <p>
-                From cloud environments and Linux systems to CI/CD pipelines,
-                containers, infrastructure automation, and monitoring, I
-                approach each layer as part of one connected delivery system.
-              </p>
-
-              <div className="about-checks">
-                <div>
-                  <CheckCircle2 size={18} />
-                  <span>Reliable deployment workflows</span>
-                </div>
-
-                <div>
-                  <CheckCircle2 size={18} />
-                  <span>Automated infrastructure operations</span>
-                </div>
-
-                <div>
-                  <CheckCircle2 size={18} />
-                  <span>Cloud-first deployment architecture</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* SKILLS */}
-        <section className="skills-section section" id="skills">
-          <div className="section-heading">
-            <div>
-              <div className="section-label">02 / CAPABILITIES</div>
-
-              <h2>
-                What I <span>build.</span>
-              </h2>
-            </div>
-
-            <p>
-              A practical DevOps toolkit covering infrastructure, automation,
-              deployment, containers, security, and operational visibility.
-            </p>
-          </div>
-
-          <div className="skills-grid">
-            {skills.map((skill, index) => {
-              const Icon = skill.icon;
-
-              return (
-                <article className="skill-card" key={skill.title}>
-                  <div className="skill-top">
-                    <div className="skill-icon">
-                      <Icon size={23} />
-                    </div>
-
-                    <div className="skill-number">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-                  </div>
-
-                  <h3>{skill.title}</h3>
-
-                  <p>{skill.text}</p>
-
-                  <div className="tag-list">
-                    {skill.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* WORKFLOW */}
-        <section className="workflow-section section">
-          <div className="section-label">03 / DELIVERY FLOW</div>
-
-          <div className="workflow-heading">
-            <h2>
-              Code to
-              <br />
-              <span>production.</span>
-            </h2>
-
-            <p>
-              A repeatable delivery process connecting source control,
-              automation, containers, cloud infrastructure, and monitoring.
-            </p>
-          </div>
-
-          <div className="workflow">
-            {workflow.map((item, index) => {
+          <nav className="side-navigation">
+            {navigation.map((item) => {
               const Icon = item.icon;
+              const active = activeSection === item.id;
 
               return (
-                <div className="workflow-item" key={item.title}>
-                  <div className="workflow-line">
-                    <div className="workflow-icon">
-                      <Icon size={20} />
-                    </div>
-
-                    {index !== workflow.length - 1 && (
-                      <div className="workflow-connector" />
-                    )}
-                  </div>
-
-                  <div className="workflow-content">
-                    <span>0{index + 1}</span>
-
-                    <h3>{item.title}</h3>
-
-                    <p>{item.text}</p>
-                  </div>
-                </div>
+                <button
+                  key={item.id}
+                  className={`side-nav-item ${active ? "active" : ""}`}
+                  onClick={() => goTo(item.id)}
+                >
+                  <Icon size={17} strokeWidth={1.8} />
+                  <span>{item.label}</span>
+                  <i />
+                </button>
               );
             })}
+          </nav>
+
+          <div className="sidebar-footer">
+            <span>OPERATOR / 01</span>
+            <span>BUILD · DEPLOY · REPEAT</span>
           </div>
-        </section>
+        </aside>
 
-        {/* PROJECTS */}
-        <section className="projects-section section" id="projects">
-          <div className="section-heading">
-            <div>
-              <div className="section-label">04 / SELECTED WORK</div>
+        {/* =====================================================
+            MAIN
+        ====================================================== */}
+        <main className="main-content">
+          {/* =================================================
+              PROFILE HEADER
+          ================================================== */}
+          <section className="profile-card">
+            <div className="window-bar">
+              <div className="window-dots">
+                <span className="dot-red" />
+                <span className="dot-yellow" />
+                <span className="dot-green" />
+              </div>
 
-              <h2>
-                Selected <span>projects.</span>
-              </h2>
+              <span className="console-title">operator console</span>
             </div>
 
-            <p>
-              Projects demonstrating cloud infrastructure, automation,
-              containerization, Kubernetes, deployment, and monitoring.
-            </p>
-          </div>
-
-          <div className="projects-list">
-            {projects.map((project) => (
-              <article className="project-card" key={project.number}>
-                <div className="project-number">{project.number}</div>
-
-                <div className="project-main">
-                  <h3>{project.title}</h3>
-
-                  <p>{project.description}</p>
-
-                  <div className="tag-list">
-                    {project.stack.map((technology) => (
-                      <span key={technology}>{technology}</span>
-                    ))}
+            <div className="profile-body">
+              <div className="identity">
+                <div className="profile-avatar">
+                  <div className="avatar-inner">
+                    <span>Z.</span>
                   </div>
-
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="project-link"
-                  >
-                    View on GitHub
-                    <ArrowUpRight size={15} />
-                  </a>
                 </div>
 
+                <div className="identity-copy">
+                  <h1>
+                    Zeeshan <span>Ahmed</span>
+                  </h1>
+
+                  <p>{profile.role}</p>
+
+                  <small>operator / 01</small>
+                </div>
+              </div>
+
+              <div className="system-status">
+                <div className="status-title">SYSTEM STATUS</div>
+
+                <div className="status-row">
+                  <span>status:</span>
+                  <strong>
+                    <i className="available-dot" />
+                    available
+                  </strong>
+                </div>
+
+                <div className="status-row">
+                  <span>tz:</span>
+                  <strong>GMT+5:30</strong>
+                </div>
+
+                <div className="status-row">
+                  <span>response:</span>
+                  <strong>&lt;24h</strong>
+                </div>
+              </div>
+
+              <div className="profile-actions">
                 <a
-                  href={project.github}
+                  href="/Resume.CV.pdf"
+                  className="cv-button"
                   target="_blank"
                   rel="noreferrer"
-                  className="project-arrow"
-                  aria-label={`Open ${project.title} on GitHub`}
                 >
-                  <ArrowUpRight size={24} />
+                  <Download size={17} />
+                  Download CV
+                  <ArrowUpRight size={15} />
                 </a>
-              </article>
-            ))}
-          </div>
-        </section>
 
-        {/* TERMINAL */}
-        <section className="terminal-section section">
-          <div className="terminal-window">
-            <div className="terminal-header">
-              <div className="terminal-dots">
-                <span />
-                <span />
-                <span />
+                <a
+                  className="email-mini"
+                  href={`mailto:${profile.email}`}
+                >
+                  <Mail size={16} />
+                  {profile.email}
+                </a>
+
+                <div className="social-row">
+                  <a
+                    href={profile.github}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="GitHub"
+                  >
+                    <Github size={18} />
+                  </a>
+
+                  <a
+                    href={profile.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="LinkedIn"
+                  >
+                    <Linkedin size={18} />
+                  </a>
+
+                  <a
+                    href={`mailto:${profile.email}`}
+                    aria-label="Email"
+                  >
+                    <Mail size={18} />
+                  </a>
+
+                  <a href="#projects" aria-label="Projects">
+                    <Code2 size={18} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              ABOUT
+          ================================================== */}
+          <section className="content-card about-card" id="about">
+            <div className="section-heading-console">
+              <span>ABOUT ME</span>
+              <strong>.</strong>
+            </div>
+
+            <div className="heading-line">
+              <span />
+              <span />
+            </div>
+
+            <div className="about-meta">
+              <span>◆</span>
+              <strong>DevOps Engineer</strong>
+              <span>·</span>
+              <span>Hyderabad, IN</span>
+              <span>·</span>
+              <span>Cloud / CI/CD / Kubernetes</span>
+            </div>
+
+            <div className="about-divider" />
+
+            <div className="about-text">
+              <p className="about-lead">
+                DevOps Engineer focused on building reliable cloud
+                infrastructure, automated delivery pipelines, containerized
+                applications, and repeatable deployment systems.
+              </p>
+
+              <p>
+                My work centers around connecting development and operations
+                through automation. I work with cloud platforms, Linux
+                environments, CI/CD pipelines, Docker, Kubernetes,
+                infrastructure-as-code and monitoring tools to create
+                predictable deployment workflows.
+              </p>
+
+              <p>
+                I enjoy turning manual infrastructure and deployment
+                processes into structured, automated systems with a strong
+                focus on reliability, security, observability and
+                maintainability.
+              </p>
+            </div>
+
+            <div className="about-check-grid">
+              <div>
+                <CheckCircle2 size={17} />
+                <span>Cloud infrastructure</span>
               </div>
 
-              <span>zeeshan@devops:~</span>
+              <div>
+                <CheckCircle2 size={17} />
+                <span>CI/CD automation</span>
+              </div>
 
-              <Terminal size={15} />
+              <div>
+                <CheckCircle2 size={17} />
+                <span>Container orchestration</span>
+              </div>
+
+              <div>
+                <CheckCircle2 size={17} />
+                <span>Infrastructure automation</span>
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              SKILLS
+          ================================================== */}
+          <section className="content-card" id="skills">
+            <div className="section-top">
+              <div>
+                <span className="console-label">01 / CAPABILITIES</span>
+
+                <h2>
+                  Technical <span>stack.</span>
+                </h2>
+              </div>
+
+              <p>
+                A practical toolkit for cloud infrastructure, deployment
+                automation, containers and operational visibility.
+              </p>
             </div>
 
-            <div className="terminal-body">
+            <div className="skills-console-grid">
+              {skills.map((skill, index) => {
+                const Icon = skill.icon;
+
+                return (
+                  <article className="skill-console-card" key={skill.title}>
+                    <div className="skill-top">
+                      <div className="skill-symbol">
+                        <Icon size={21} />
+                      </div>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    <h3>{skill.title}</h3>
+
+                    <p>{skill.description}</p>
+
+                    <div className="skill-tags">
+                      {skill.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* =================================================
+              PROJECTS
+          ================================================== */}
+          <section className="content-card" id="projects">
+            <div className="section-top">
+              <div>
+                <span className="console-label">02 / SELECTED WORK</span>
+
+                <h2>
+                  Project <span>systems.</span>
+                </h2>
+              </div>
+
               <p>
-                <span className="terminal-green">$</span> whoami
-              </p>
-
-              <p className="terminal-output">devops-engineer</p>
-
-              <p>
-                <span className="terminal-green">$</span> systemctl status
-                delivery
-              </p>
-
-              <p className="terminal-output terminal-success">
-                ● delivery.service — active (running)
-              </p>
-
-              <p>
-                <span className="terminal-green">$</span> docker ps
-              </p>
-
-              <p className="terminal-output">
-                api &nbsp; frontend &nbsp; nginx &nbsp; monitoring
-              </p>
-
-              <p>
-                <span className="terminal-green">$</span>{" "}
-                <span className="cursor">_</span>
+                Infrastructure and delivery projects demonstrating
+                automation, Kubernetes, cloud and DevSecOps practices.
               </p>
             </div>
-          </div>
-        </section>
 
-        {/* CONTACT */}
-        <section className="contact-section section" id="contact">
-          <div className="section-label">05 / CONTACT</div>
+            <div className="projects-console">
+              {projects.map((project) => (
+                <article className="project-console-card" key={project.number}>
+                  <div className="project-index">{project.number}</div>
 
-          <div className="contact-content">
-            <div>
+                  <div className="project-info">
+                    <div className="project-title-row">
+                      <div>
+                        <h3>{project.title}</h3>
+                        <span>{project.subtitle}</span>
+                      </div>
+
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="project-external"
+                        aria-label={`Open ${project.title} on GitHub`}
+                      >
+                        <Github size={18} />
+                        <ArrowUpRight size={17} />
+                      </a>
+                    </div>
+
+                    <p>{project.description}</p>
+
+                    <div className="project-tags">
+                      {project.technologies.map((technology) => (
+                        <span key={technology}>{technology}</span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* =================================================
+              EXPERIENCE
+          ================================================== */}
+          <section className="content-card" id="experience">
+            <div className="section-top">
+              <div>
+                <span className="console-label">03 / EXPERIENCE</span>
+
+                <h2>
+                  Work <span>history.</span>
+                </h2>
+              </div>
+
+              <p>
+                Professional experience across DevOps engineering,
+                infrastructure automation and deployment operations.
+              </p>
+            </div>
+
+            <div className="experience-list">
+              {experience.map((item) => (
+                <article className="experience-card" key={item.company}>
+                  <div className="experience-period">
+                    <span>{item.period}</span>
+                  </div>
+
+                  <div className="experience-main">
+                    <div className="experience-heading">
+                      <div>
+                        <h3>{item.role}</h3>
+                        <span>{item.company}</span>
+                      </div>
+
+                      <div className="experience-status">
+                        <i />
+                        EXPERIENCE
+                      </div>
+                    </div>
+
+                    <p>{item.description}</p>
+
+                    <div className="experience-tags">
+                      {item.technologies.map((technology) => (
+                        <span key={technology}>{technology}</span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          {/* =================================================
+              DELIVERY FLOW
+          ================================================== */}
+          <section className="content-card delivery-card">
+            <div className="section-top">
+              <div>
+                <span className="console-label">04 / DELIVERY FLOW</span>
+
+                <h2>
+                  Code → <span>production.</span>
+                </h2>
+              </div>
+            </div>
+
+            <div className="delivery-flow">
+              <div className="flow-node">
+                <Code2 />
+                <span>CODE</span>
+              </div>
+
+              <div className="flow-line" />
+
+              <div className="flow-node">
+                <Zap />
+                <span>BUILD</span>
+              </div>
+
+              <div className="flow-line" />
+
+              <div className="flow-node">
+                <Container />
+                <span>PACKAGE</span>
+              </div>
+
+              <div className="flow-line" />
+
+              <div className="flow-node">
+                <Cloud />
+                <span>DEPLOY</span>
+              </div>
+
+              <div className="flow-line" />
+
+              <div className="flow-node">
+                <Activity />
+                <span>MONITOR</span>
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              TERMINAL
+          ================================================== */}
+          <section className="content-card terminal-card" id="terminal">
+            <div className="terminal-topbar">
+              <div className="terminal-window-title">
+                <span />
+                <span />
+                <span />
+                <strong>zeeshan@devops:~</strong>
+              </div>
+
+              <span>{time || "00:00:00"}</span>
+            </div>
+
+            <div className="terminal-content">
+              {commands.map((item) => (
+                <div className="terminal-command" key={item.command}>
+                  <div>
+                    <span className="terminal-prompt">$</span>{" "}
+                    {item.command}
+                  </div>
+
+                  <p>{item.output}</p>
+                </div>
+              ))}
+
+              <div className="terminal-cursor">
+                <span>$</span> _
+              </div>
+            </div>
+          </section>
+
+          {/* =================================================
+              CONTACT
+          ================================================== */}
+          <section className="content-card contact-card" id="contact">
+            <div className="contact-main">
+              <span className="console-label">05 / CONTACT</span>
+
               <h2>
                 Let's build
                 <br />
@@ -627,67 +757,66 @@ function App() {
               </h2>
 
               <p>
-                Looking for someone who can contribute to infrastructure,
-                deployment automation, cloud operations, and DevOps workflows?
+                Open to DevOps Engineer opportunities involving cloud
+                infrastructure, CI/CD, containers, Kubernetes and
+                infrastructure automation.
               </p>
             </div>
 
-            <div className="contact-actions">
-              <a
-                href="mailto:zeeshanahmed.mohd6@gmail.com"
-                className="contact-link"
-              >
+            <div className="contact-panel">
+              <a href={`mailto:${profile.email}`} className="contact-row">
                 <span>
-                  <Mail size={20} />
-                  zeeshanahmed.mohd6@gmail.com
+                  <Mail size={19} />
+                  {profile.email}
                 </span>
-
-                <ArrowUpRight size={21} />
+                <ArrowUpRight size={18} />
               </a>
 
               <a
-                href="https://github.com/Zeeshansgit"
+                href={profile.github}
                 target="_blank"
                 rel="noreferrer"
-                className="contact-link"
+                className="contact-row"
               >
                 <span>
-                  <Github size={20} />
+                  <Github size={19} />
                   GitHub
                 </span>
-
-                <ArrowUpRight size={21} />
+                <ExternalLink size={17} />
               </a>
 
               <a
-                href="https://www.linkedin.com/in/zeeshan-ahmed-21b72a345/"
+                href={profile.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="contact-link"
+                className="contact-row"
               >
                 <span>
-                  <Linkedin size={20} />
+                  <Linkedin size={19} />
                   LinkedIn
                 </span>
-
-                <ArrowUpRight size={21} />
+                <ExternalLink size={17} />
               </a>
             </div>
-          </div>
-        </section>
-      </main>
+          </section>
 
-      {/* FOOTER */}
-      <footer className="footer">
-        <div className="footer-brand">
-          <span className="brand-mark">Z.</span>
-          <span>ZEESHAN</span>
-        </div>
+          {/* =================================================
+              FOOTER
+          ================================================== */}
+          <footer className="footer">
+            <div className="footer-brand">
+              <span>Z.</span>
+              <strong>ZEESHAN</strong>
+            </div>
 
-        <span>DEVOPS / CLOUD / AUTOMATION</span>
+            <span>DEVOPS / CLOUD / AUTOMATION</span>
 
-        <span>© {new Date().getFullYear()} ZEESHAN</span>
-      </footer>
+            <span>
+              © {new Date().getFullYear()} ZEESHAN AHMED
+            </span>
+          </footer>
+        </main>
+      </div>
     </div>
   );
 }
