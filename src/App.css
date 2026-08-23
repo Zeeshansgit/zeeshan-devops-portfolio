@@ -5,11 +5,11 @@
 :root {
   --bg: #080a0b;
   --bg-soft: #0d1011;
-  --panel: #101415;
+  --panel: #021215;
   --panel-light: #151a1b;
   --text: #edf4f6;
   --muted: #97878700;
-  --line: rgba(255, 255, 255, 0.09);
+  --line: rgb(255, 255, 255);
   --accent: #ff4f4f;
   --accent-soft: rgb(255, 79, 79);
   --max-width: 1240px;
@@ -93,7 +93,7 @@ button {
   width: 31px;
   height: 31px;
 
-  border: 1px solid rgba(169, 255, 79, 0.65);
+  border: 1px solid rgba(255, 79, 79, 0);
   border-radius: 8px;
 
   color: var(--accent);
