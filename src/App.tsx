@@ -29,46 +29,45 @@ const skills = [
     icon: Zap,
     title: "CI/CD Automation",
     text: "Building reliable delivery pipelines that automate testing, builds, deployments, and release workflows.",
-    tags: ["Jenkins", "GitHub Actions", "Git", "CI/CD"],
+    tags: ["GitHub Actions", "Azure DevOps", "Git", "CI/CD"],
   },
   {
     icon: Container,
     title: "Containers",
     text: "Containerizing applications and managing repeatable deployment environments using modern container tooling.",
-    tags: ["Docker", "Docker Compose", "Images", "Registry"],
+    tags: ["Docker", "Kubernetes", "Compose", "Registry"],
   },
   {
     icon: MonitorCog,
     title: "Monitoring",
     text: "Creating visibility into infrastructure and applications through metrics, logs, alerts, and operational dashboards.",
-    tags: ["Prometheus", "Grafana", "Logs", "Alerts"],
+    tags: ["Prometheus", "Grafana", "Metrics", "Alerts"],
   },
   {
     icon: Terminal,
-    title: "Automation",
-    text: "Automating repetitive infrastructure and operational tasks with scripts and infrastructure-as-code practices.",
-    tags: ["Bash", "Python", "Terraform", "Ansible"],
+    title: "Infrastructure as Code",
+    text: "Automating infrastructure provisioning and maintaining consistent, repeatable environments through declarative configuration.",
+    tags: ["Terraform", "IaC", "Automation", "Cloud"],
   },
   {
     icon: ShieldCheck,
     title: "Security & Reliability",
-    text: "Applying secure configuration, access controls, deployment practices, and reliability-focused operational processes.",
-    tags: ["IAM", "SSH", "Secrets", "Backups"],
+    text: "Applying secure configuration, access controls, scanning, deployment practices, and reliability-focused operations.",
+    tags: ["IAM", "SonarQube", "Trivy", "Secrets"],
   },
 ];
 
 const projects = [
   {
     number: "01",
-    title: "Wanderlust — Three-Tier MERN DevOps & Kubernetes Deployment",
+    title: "Wanderlust — MERN DevOps & Kubernetes Deployment",
     description:
-      "Deployed a three-tier MERN application on AWS EKS using Kubernetes Deployments, Services, and namespaces. Containerized the frontend and backend with Docker and Docker Compose, provisioned AWS infrastructure with Terraform, and implemented automated CI/CD and GitOps delivery.",
+      "Deployed a three-tier MERN application on AWS EKS using Kubernetes Deployments, Services, and namespaces. Containerized the frontend and backend with Docker, provisioned AWS infrastructure with Terraform, and implemented automated CI/CD and GitOps delivery.",
     stack: [
       "AWS EKS",
       "Kubernetes",
       "Docker",
       "Terraform",
-      "Jenkins",
       "GitHub Actions",
       "Argo CD",
       "Prometheus",
@@ -82,9 +81,9 @@ const projects = [
   },
   {
     number: "02",
-    title: "Spring Pet Clinic — CI/CD Pipeline & Kubernetes Deployment",
+    title: "Spring Pet Clinic — CI/CD & Kubernetes Deployment",
     description:
-      "Built an end-to-end Jenkins CI/CD pipeline for automated build, testing, containerization, security scanning, and Kubernetes deployment. Integrated Maven, SonarQube, Trivy, and Nexus Repository while deploying the application on a self-hosted Kubernetes cluster.",
+      "Built an end-to-end CI/CD workflow for automated build, testing, containerization, security scanning, and Kubernetes deployment. Integrated Maven, SonarQube, Trivy, and Nexus Repository while deploying the application on Kubernetes.",
     stack: [
       "Jenkins",
       "Maven",
@@ -146,7 +145,6 @@ const workflow = [
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-
   const heroRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -172,8 +170,8 @@ function App() {
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-      hero.style.setProperty("--mouse-x", x.toString());
-      hero.style.setProperty("--mouse-y", y.toString());
+      hero.style.setProperty("--mouse-x", `${x}`);
+      hero.style.setProperty("--mouse-y", `${y}`);
     };
 
     const handleLeave = () => {
@@ -190,16 +188,18 @@ function App() {
     };
   }, []);
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <div className="app-wrapper">
+      {/* Ambient background */}
+      <div className="ambient ambient-one" />
+      <div className="ambient ambient-two" />
+
       {/* NAVIGATION */}
       <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
         <a href="#home" className="brand" onClick={closeMenu}>
-          <span className="brand-mark">Z</span>
+          <span className="brand-mark">Z.</span>
           <span>ZEESHAN</span>
         </a>
 
@@ -207,19 +207,15 @@ function App() {
           <a href="#home" onClick={closeMenu}>
             Home
           </a>
-
           <a href="#about" onClick={closeMenu}>
             About
           </a>
-
           <a href="#skills" onClick={closeMenu}>
             Skills
           </a>
-
           <a href="#projects" onClick={closeMenu}>
             Projects
           </a>
-
           <a href="#contact" onClick={closeMenu}>
             Contact
           </a>
@@ -244,16 +240,15 @@ function App() {
         <section className="hero" id="home" ref={heroRef}>
           <div className="hero-grid" />
 
-          <div className="hero-noise" />
-
           <div className="hero-glow hero-glow-one" />
           <div className="hero-glow hero-glow-two" />
+          <div className="hero-glow hero-glow-three" />
 
           <div className="hero-content">
             <div className="hero-copy">
               <div className="eyebrow">
                 <span className="status-dot" />
-                AVAILABLE FOR DEVOPS OPPORTUNITIES
+                DEVOPS ENGINEER
               </div>
 
               <h1>
@@ -301,33 +296,30 @@ function App() {
 
             {/* 3D HERO */}
             <div className="hero-visual">
-              <div className="visual-shadow" />
+              <div className="visual-glow" />
 
               <div className="visual-orbit orbit-one" />
               <div className="visual-orbit orbit-two" />
               <div className="visual-orbit orbit-three" />
 
-              <div className="orbit-dot dot-one" />
-              <div className="orbit-dot dot-two" />
-              <div className="orbit-dot dot-three" />
-
               <div className="profile-platform">
-                <div className="profile-halo" />
+                <div className="profile-depth depth-one" />
+                <div className="profile-depth depth-two" />
 
                 <div className="profile-image">
                   <div className="profile-placeholder">
-                    <Terminal size={72} strokeWidth={1.1} />
+                    <Terminal size={72} strokeWidth={1} />
                     <span>DEVOPS</span>
                   </div>
-
-                  <div className="profile-scan" />
                 </div>
 
-                <div className="profile-ring" />
-                <div className="profile-ring profile-ring-two" />
+                <div className="profile-ring ring-one" />
+                <div className="profile-ring ring-two" />
+
+                <div className="core-dot" />
               </div>
 
-              {/* Cloud */}
+              {/* Floating cards */}
               <div className="floating-card card-cloud">
                 <Cloud size={18} />
 
@@ -337,7 +329,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Docker */}
               <div className="floating-card card-container">
                 <Container size={18} />
 
@@ -347,9 +338,8 @@ function App() {
                 </div>
               </div>
 
-              {/* Kubernetes */}
               <div className="floating-card card-kubernetes">
-                <div className="kubernetes-symbol">K</div>
+                <span className="k8s-symbol">K</span>
 
                 <div>
                   <strong>Kubernetes</strong>
@@ -357,7 +347,6 @@ function App() {
                 </div>
               </div>
 
-              {/* CI/CD */}
               <div className="floating-card card-cicd">
                 <Zap size={18} />
 
@@ -402,8 +391,8 @@ function App() {
 
               <p>
                 From cloud environments and Linux systems to CI/CD pipelines,
-                containers, automation, and monitoring, I approach each layer
-                as part of one connected delivery system.
+                containers, infrastructure automation, and monitoring, I
+                approach each layer as part of one connected delivery system.
               </p>
 
               <div className="about-checks">
@@ -439,7 +428,7 @@ function App() {
 
             <p>
               A practical DevOps toolkit covering infrastructure, automation,
-              deployment, containers, and operational visibility.
+              deployment, containers, security, and operational visibility.
             </p>
           </div>
 
@@ -449,12 +438,14 @@ function App() {
 
               return (
                 <article className="skill-card" key={skill.title}>
-                  <div className="skill-icon">
-                    <Icon size={23} />
-                  </div>
+                  <div className="skill-top">
+                    <div className="skill-icon">
+                      <Icon size={23} />
+                    </div>
 
-                  <div className="skill-number">
-                    {String(index + 1).padStart(2, "0")}
+                    <div className="skill-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
                   </div>
 
                   <h3>{skill.title}</h3>
@@ -530,8 +521,8 @@ function App() {
             </div>
 
             <p>
-              Projects that demonstrate infrastructure, automation,
-              containerization, deployment, and monitoring capabilities.
+              Projects demonstrating cloud infrastructure, automation,
+              containerization, Kubernetes, deployment, and monitoring.
             </p>
           </div>
 
@@ -562,9 +553,15 @@ function App() {
                   </a>
                 </div>
 
-                <div className="project-arrow">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="project-arrow"
+                  aria-label={`Open ${project.title} on GitHub`}
+                >
                   <ArrowUpRight size={24} />
-                </div>
+                </a>
               </article>
             ))}
           </div>
@@ -630,7 +627,7 @@ function App() {
               </h2>
 
               <p>
-                Looking for someone who can take ownership of infrastructure,
+                Looking for someone who can contribute to infrastructure,
                 deployment automation, cloud operations, and DevOps workflows?
               </p>
             </div>
@@ -683,7 +680,7 @@ function App() {
       {/* FOOTER */}
       <footer className="footer">
         <div className="footer-brand">
-          <span className="brand-mark">Z</span>
+          <span className="brand-mark">Z.</span>
           <span>ZEESHAN</span>
         </div>
 
