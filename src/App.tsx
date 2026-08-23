@@ -18,70 +18,6 @@ import {
 } from "lucide-react";
 import "./App.css";
 
-/* =========================================================
-   KUBERNETES ICON
-========================================================= */
-
-function KubernetesIcon({ size = 18 }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M12 2.2L19.9 6.75V15.8L12 20.35L4.1 15.8V6.75L12 2.2Z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-
-      <path
-        d="M12 6.1V17.9"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M6.9 9.05L17.1 14.95"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M17.1 9.05L6.9 14.95"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-
-      <circle
-        cx="12"
-        cy="12"
-        r="2.15"
-        stroke="currentColor"
-        strokeWidth="1.25"
-      />
-
-      <circle cx="12" cy="4.15" r="1.05" fill="currentColor" />
-      <circle cx="18.8" cy="8.1" r="1.05" fill="currentColor" />
-      <circle cx="18.8" cy="15.9" r="1.05" fill="currentColor" />
-      <circle cx="12" cy="19.85" r="1.05" fill="currentColor" />
-      <circle cx="5.2" cy="15.9" r="1.05" fill="currentColor" />
-      <circle cx="5.2" cy="8.1" r="1.05" fill="currentColor" />
-    </svg>
-  );
-}
-
-/* =========================================================
-   SKILLS
-========================================================= */
-
 const skills = [
   {
     icon: Cloud,
@@ -97,28 +33,21 @@ const skills = [
   },
   {
     icon: Container,
-    title: "Containerization & Container Orchestration",
-    text: "Containerizing applications and deploying them through repeatable orchestration workflows using Docker and Kubernetes.",
-    tags: [
-      "Docker",
-      "Docker Compose",
-      "Kubernetes",
-      "AWS EKS",
-      "Deployments",
-      "Services",
-    ],
+    title: "Containers",
+    text: "Containerizing applications and managing repeatable deployment environments using modern container tooling.",
+    tags: ["Docker", "Docker Compose", "Images", "Registry"],
   },
   {
     icon: MonitorCog,
-    title: "Monitoring & Observability",
+    title: "Monitoring",
     text: "Creating visibility into infrastructure and applications through metrics, logs, alerts, and operational dashboards.",
     tags: ["Prometheus", "Grafana", "Logs", "Alerts"],
   },
   {
     icon: Terminal,
-    title: "Infrastructure Automation",
-    text: "Automating infrastructure and operational tasks with scripts, configuration management, and infrastructure-as-code practices.",
-    tags: ["Terraform", "Ansible", "Bash", "Python"],
+    title: "Automation",
+    text: "Automating repetitive infrastructure and operational tasks with scripts and infrastructure-as-code practices.",
+    tags: ["Bash", "Python", "Terraform", "Ansible"],
   },
   {
     icon: ShieldCheck,
@@ -127,10 +56,6 @@ const skills = [
     tags: ["IAM", "SSH", "Secrets", "Backups"],
   },
 ];
-
-/* =========================================================
-   PROJECTS
-========================================================= */
 
 const projects = [
   {
@@ -190,10 +115,6 @@ const projects = [
   },
 ];
 
-/* =========================================================
-   DELIVERY WORKFLOW
-========================================================= */
-
 const workflow = [
   {
     icon: Code2,
@@ -211,11 +132,6 @@ const workflow = [
     text: "Applications are packaged into consistent container images.",
   },
   {
-    icon: KubernetesIcon,
-    title: "Orchestrate",
-    text: "Containerized workloads are managed through Kubernetes deployments and services.",
-  },
-  {
     icon: Cloud,
     title: "Deploy",
     text: "Infrastructure and applications are deployed into cloud environments.",
@@ -227,19 +143,11 @@ const workflow = [
   },
 ];
 
-/* =========================================================
-   APP
-========================================================= */
-
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const heroRef = useRef(null);
-
-  /* =======================================================
-     SCROLL
-  ======================================================= */
+  const heroRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -253,29 +161,32 @@ function App() {
     };
   }, []);
 
-  /* =======================================================
-     HERO MOUSE MOVEMENT
-  ======================================================= */
-
   useEffect(() => {
     const hero = heroRef.current;
 
     if (!hero) return;
 
-    const handleMove = (event) => {
+    const handleMove = (event: MouseEvent) => {
       const rect = hero.getBoundingClientRect();
 
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
 
-      hero.style.setProperty("--mouse-x", `${x}`);
-      hero.style.setProperty("--mouse-y", `${y}`);
+      hero.style.setProperty("--mouse-x", x.toString());
+      hero.style.setProperty("--mouse-y", y.toString());
+    };
+
+    const handleLeave = () => {
+      hero.style.setProperty("--mouse-x", "0");
+      hero.style.setProperty("--mouse-y", "0");
     };
 
     hero.addEventListener("mousemove", handleMove);
+    hero.addEventListener("mouseleave", handleLeave);
 
     return () => {
       hero.removeEventListener("mousemove", handleMove);
+      hero.removeEventListener("mouseleave", handleLeave);
     };
   }, []);
 
@@ -285,13 +196,8 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      {/* =====================================================
-          NAVIGATION
-      ====================================================== */}
-
-      <header
-        className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}
-      >
+      {/* NAVIGATION */}
+      <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
         <a href="#home" className="brand" onClick={closeMenu}>
           <span className="brand-mark">Z</span>
           <span>ZEESHAN</span>
@@ -319,7 +225,7 @@ function App() {
           </a>
         </nav>
 
-        <a href="#contact" className="nav-cta" onClick={closeMenu}>
+        <a href="#contact" className="nav-cta">
           Let's Talk
           <ArrowUpRight size={15} />
         </a>
@@ -334,12 +240,11 @@ function App() {
       </header>
 
       <main>
-        {/* =====================================================
-            HERO
-        ====================================================== */}
-
+        {/* HERO */}
         <section className="hero" id="home" ref={heroRef}>
           <div className="hero-grid" />
+
+          <div className="hero-noise" />
 
           <div className="hero-glow hero-glow-one" />
           <div className="hero-glow hero-glow-two" />
@@ -348,7 +253,7 @@ function App() {
             <div className="hero-copy">
               <div className="eyebrow">
                 <span className="status-dot" />
-                DEVOPS ENGINEER
+                AVAILABLE FOR DEVOPS OPPORTUNITIES
               </div>
 
               <h1>
@@ -362,7 +267,7 @@ function App() {
               <p className="hero-description">
                 I build reliable cloud infrastructure, automate delivery
                 pipelines, containerize applications, and create deployment
-                systems designed for speed and consistency.
+                systems designed for speed, consistency, and reliability.
               </p>
 
               <div className="hero-actions">
@@ -388,34 +293,41 @@ function App() {
                 </div>
 
                 <div>
-                  <strong>K8S</strong>
-                  <span>Orchestration</span>
+                  <strong>OPS</strong>
+                  <span>Reliability</span>
                 </div>
               </div>
             </div>
 
-            {/* =================================================
-                HERO SPHERE
-            ================================================== */}
-
+            {/* 3D HERO */}
             <div className="hero-visual">
+              <div className="visual-shadow" />
+
               <div className="visual-orbit orbit-one" />
               <div className="visual-orbit orbit-two" />
               <div className="visual-orbit orbit-three" />
 
+              <div className="orbit-dot dot-one" />
+              <div className="orbit-dot dot-two" />
+              <div className="orbit-dot dot-three" />
+
               <div className="profile-platform">
+                <div className="profile-halo" />
+
                 <div className="profile-image">
                   <div className="profile-placeholder">
                     <Terminal size={72} strokeWidth={1.1} />
                     <span>DEVOPS</span>
                   </div>
+
+                  <div className="profile-scan" />
                 </div>
 
                 <div className="profile-ring" />
+                <div className="profile-ring profile-ring-two" />
               </div>
 
-              {/* CLOUD */}
-
+              {/* Cloud */}
               <div className="floating-card card-cloud">
                 <Cloud size={18} />
 
@@ -425,8 +337,7 @@ function App() {
                 </div>
               </div>
 
-              {/* DOCKER */}
-
+              {/* Docker */}
               <div className="floating-card card-container">
                 <Container size={18} />
 
@@ -436,25 +347,23 @@ function App() {
                 </div>
               </div>
 
-              {/* CI/CD */}
+              {/* Kubernetes */}
+              <div className="floating-card card-kubernetes">
+                <div className="kubernetes-symbol">K</div>
 
+                <div>
+                  <strong>Kubernetes</strong>
+                  <span>Orchestration</span>
+                </div>
+              </div>
+
+              {/* CI/CD */}
               <div className="floating-card card-cicd">
                 <Zap size={18} />
 
                 <div>
                   <strong>CI/CD</strong>
                   <span>Automated</span>
-                </div>
-              </div>
-
-              {/* KUBERNETES */}
-
-              <div className="floating-card card-kubernetes">
-                <KubernetesIcon size={19} />
-
-                <div>
-                  <strong>Kubernetes</strong>
-                  <span>Orchestration</span>
                 </div>
               </div>
             </div>
@@ -466,10 +375,7 @@ function App() {
           </a>
         </section>
 
-        {/* =====================================================
-            ABOUT
-        ====================================================== */}
-
+        {/* ABOUT */}
         <section className="about-section section" id="about">
           <div className="section-label">01 / ABOUT</div>
 
@@ -496,9 +402,8 @@ function App() {
 
               <p>
                 From cloud environments and Linux systems to CI/CD pipelines,
-                containers, Kubernetes orchestration, automation, and
-                monitoring, I approach each layer as part of one connected
-                delivery system.
+                containers, automation, and monitoring, I approach each layer
+                as part of one connected delivery system.
               </p>
 
               <div className="about-checks">
@@ -516,20 +421,12 @@ function App() {
                   <CheckCircle2 size={18} />
                   <span>Cloud-first deployment architecture</span>
                 </div>
-
-                <div>
-                  <CheckCircle2 size={18} />
-                  <span>Kubernetes-based container orchestration</span>
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* =====================================================
-            SKILLS
-        ====================================================== */}
-
+        {/* SKILLS */}
         <section className="skills-section section" id="skills">
           <div className="section-heading">
             <div>
@@ -542,8 +439,7 @@ function App() {
 
             <p>
               A practical DevOps toolkit covering infrastructure, automation,
-              deployment, containers, orchestration, and operational
-              visibility.
+              deployment, containers, and operational visibility.
             </p>
           </div>
 
@@ -576,10 +472,7 @@ function App() {
           </div>
         </section>
 
-        {/* =====================================================
-            DELIVERY WORKFLOW
-        ====================================================== */}
-
+        {/* WORKFLOW */}
         <section className="workflow-section section">
           <div className="section-label">03 / DELIVERY FLOW</div>
 
@@ -592,8 +485,7 @@ function App() {
 
             <p>
               A repeatable delivery process connecting source control,
-              automation, containers, Kubernetes orchestration, cloud
-              infrastructure, and monitoring.
+              automation, containers, cloud infrastructure, and monitoring.
             </p>
           </div>
 
@@ -614,9 +506,7 @@ function App() {
                   </div>
 
                   <div className="workflow-content">
-                    <span>
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                    <span>0{index + 1}</span>
 
                     <h3>{item.title}</h3>
 
@@ -628,10 +518,7 @@ function App() {
           </div>
         </section>
 
-        {/* =====================================================
-            PROJECTS
-        ====================================================== */}
-
+        {/* PROJECTS */}
         <section className="projects-section section" id="projects">
           <div className="section-heading">
             <div>
@@ -644,8 +531,7 @@ function App() {
 
             <p>
               Projects that demonstrate infrastructure, automation,
-              containerization, orchestration, deployment, and monitoring
-              capabilities.
+              containerization, deployment, and monitoring capabilities.
             </p>
           </div>
 
@@ -671,9 +557,8 @@ function App() {
                     rel="noreferrer"
                     className="project-link"
                   >
-                    <Github size={15} />
                     View on GitHub
-                    <ArrowUpRight size={14} />
+                    <ArrowUpRight size={15} />
                   </a>
                 </div>
 
@@ -685,10 +570,7 @@ function App() {
           </div>
         </section>
 
-        {/* =====================================================
-            TERMINAL
-        ====================================================== */}
-
+        {/* TERMINAL */}
         <section className="terminal-section section">
           <div className="terminal-window">
             <div className="terminal-header">
@@ -708,9 +590,7 @@ function App() {
                 <span className="terminal-green">$</span> whoami
               </p>
 
-              <p className="terminal-output">
-                devops-engineer
-              </p>
+              <p className="terminal-output">devops-engineer</p>
 
               <p>
                 <span className="terminal-green">$</span> systemctl status
@@ -730,14 +610,6 @@ function App() {
               </p>
 
               <p>
-                <span className="terminal-green">$</span> kubectl get pods
-              </p>
-
-              <p className="terminal-output terminal-success">
-                api &nbsp; frontend &nbsp; redis &nbsp; monitoring
-              </p>
-
-              <p>
                 <span className="terminal-green">$</span>{" "}
                 <span className="cursor">_</span>
               </p>
@@ -745,10 +617,7 @@ function App() {
           </div>
         </section>
 
-        {/* =====================================================
-            CONTACT
-        ====================================================== */}
-
+        {/* CONTACT */}
         <section className="contact-section section" id="contact">
           <div className="section-label">05 / CONTACT</div>
 
@@ -811,13 +680,10 @@ function App() {
         </section>
       </main>
 
-      {/* =====================================================
-          FOOTER
-      ====================================================== */}
-
+      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-brand">
-          <span className="brand-mark">Z.</span>
+          <span className="brand-mark">Z</span>
           <span>ZEESHAN</span>
         </div>
 
