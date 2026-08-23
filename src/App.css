@@ -8,10 +8,10 @@
   --panel: #101415;
   --panel-light: #151a1b;
   --text: #edf4f6;
-  --muted: #879397;
+  --muted: #97878700;
   --line: rgba(255, 255, 255, 0.09);
   --accent: #ff4f4f;
-  --accent-soft: rgba(169, 255, 79, 0.14);
+  --accent-soft: rgb(255, 79, 79);
   --max-width: 1240px;
 }
 
