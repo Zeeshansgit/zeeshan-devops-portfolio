@@ -1,1 +1,5 @@
-:root{font-family:'Manrope',sans-serif;color:#e8f0ff;background:#071426;font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;--bg:#071426;--panel:#0b1930;--panel2:#101f38;--line:#1d3354;--muted:#a6b8d4;--dim:#7185a5;--lime:#3984ff;--accent:#8b7cff;--mono:'DM Mono',monospace}*{box-sizing:border-box}html{min-width:320px;scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;min-width:320px;background:var(--bg)}button,a{font:inherit}button{cursor:pointer}a{color:inherit}::selection{background:var(--lime);color:#071426}button:focus-visible,a:focus-visible{outline:2px solid var(--lime);outline-offset:4px}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#29466e;border-radius:8px}::-webkit-scrollbar-thumb:hover{background:var(--lime)}
+* { box-sizing: border-box; }
+html { min-width: 320px; }
+body { min-width: 320px; margin: 0; }
+button, input, textarea, select { font: inherit; }
+button:focus-visible, a:focus-visible { outline: 2px solid #c4d8e7; outline-offset: 4px; }
