@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { ArrowDown, ArrowUpRight, Box, Cloud, Github, Linkedin, Mail, Menu, ShieldCheck, Terminal, X, Zap } from "lucide-react";
+import { Activity, ArrowDown, ArrowUpRight, Box, Cloud, Github, Linkedin, Mail, Menu, ShieldCheck, Terminal, X, Zap } from "lucide-react";
 import "./App.css";
 
 const profile = {
@@ -21,6 +21,15 @@ const projects = [
   { number: "01", title: "Wanderlust", kind: "MERN / AWS EKS / GITOPS", text: "Three-tier application deployed to AWS EKS with Terraform, CI/CD, Argo CD and a fully observable runtime.", stack: ["EKS", "Terraform", "Argo CD", "Grafana"], href: "https://github.com/Zeeshansgit/Wanderlust-project", icon: Cloud },
   { number: "02", title: "Pet Clinic", kind: "CI/CD / KUBERNETES", text: "Automated build-to-production delivery with Jenkins, Maven, SonarQube, Trivy, Nexus and Kubernetes.", stack: ["Jenkins", "Trivy", "Nexus", "K8s"], href: "https://github.com/Zeeshansgit/SPC-Deployment", icon: Terminal },
   { number: "03", title: "Terraform AWS", kind: "INFRASTRUCTURE AS CODE", text: "Repeatable AWS EC2, VPC and subnet provisioning delivered through an automated Bitbucket workflow.", stack: ["Terraform", "VPC", "EC2", "Pipelines"], href: "https://github.com/Zeeshansgit/Terraform-bitbucket", icon: Box },
+];
+
+const processSteps = [
+  { name: "COMMIT", detail: "GitHub source control", icon: Github },
+  { name: "BUILD", detail: "Jenkins & Actions", icon: Terminal },
+  { name: "SECURE", detail: "SonarQube & Trivy", icon: ShieldCheck },
+  { name: "PROVISION", detail: "Terraform cloud IaC", icon: Box },
+  { name: "DEPLOY", detail: "Docker & Kubernetes", icon: Cloud },
+  { name: "OBSERVE", detail: "Prometheus & Grafana", icon: Activity },
 ];
 
 const stackModes = {
@@ -102,12 +111,14 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState("overview");
   const [stackMode, setStackMode] = useState<keyof typeof stackModes>("cloud");
+  const [processActive, setProcessActive] = useState(0);
+  useEffect(() => { const timer = window.setInterval(() => setProcessActive(stage => (stage + 1) % processSteps.length), 1450); return () => window.clearInterval(timer); }, []);
   const scrollTo = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setActive(id); setMenu(false); };
   return <div className="app-shell">
     <div className="aurora aurora-one" /><div className="aurora aurora-two" />
     <header className="navigation">
       <button className="identity" onClick={() => scrollTo("overview")}><span>ZA</span><b>ZEESHAN<span>/OPS</span></b></button>
-      <nav className={menu ? "nav-open" : ""}>{["overview", "capabilities", "webstack", "projects", "experience"].map(item => <button key={item} className={active === item ? "active" : ""} onClick={() => scrollTo(item)}>{item}</button>)}<a href={`mailto:${profile.email}`}>CONTACT <ArrowUpRight size={14}/></a></nav>
+      <nav className={menu ? "nav-open" : ""}>{["overview", "process", "capabilities", "webstack", "projects", "experience"].map(item => <button key={item} className={active === item ? "active" : ""} onClick={() => scrollTo(item)}>{item}</button>)}<a href={`mailto:${profile.email}`}>CONTACT <ArrowUpRight size={14}/></a></nav>
       <button className="mobile-menu" aria-label="Toggle menu" onClick={() => setMenu(!menu)}>{menu ? <X/> : <Menu/>}</button>
     </header>
     <main>
@@ -116,6 +127,7 @@ export default function App() {
         <div className="hero-art"><CommandScene/><div className="art-label top">[ CONTROL PLANE / 01 ]</div><div className="art-label left">CI/CD <i/></div><div className="art-label right"><i/> OBSERVE</div><div className="art-label bottom">AUTOMATED DELIVERY MATRIX</div><div className="scene-caption"><span>●</span> LIVE CLOUD TOPOLOGY</div></div>
       </section>
       <section className="marquee"><div>BUILD <i>✦</i> AUTOMATE <i>✦</i> DEPLOY <i>✦</i> OBSERVE <i>✦</i> SECURE <i>✦</i> BUILD <i>✦</i> AUTOMATE <i>✦</i> DEPLOY <i>✦</i></div></section>
+      <section className="process" id="process"><div className="process-shell"><div className="process-head"><div><p className="eyebrow">01 — LIVE DELIVERY PROCESS</p><h2>FROM SIGNAL<br/>TO <em>SCALE.</em></h2></div><p>This is the delivery motion I build for: every code change moves through a visible, protected, and repeatable release path.</p></div><div className="pipeline-stage"><div className="pipeline-grid"/><div className="pipeline-run"><span>FLOW_STATUS</span><b>RUNNING</b><i/></div><div className="pipeline-track"><div className="data-pulse"/>{processSteps.map((step, index) => { const Icon = step.icon; return <button className={`process-node ${processActive === index ? "current" : ""}`} onClick={() => setProcessActive(index)} key={step.name}><span className="node-count">0{index + 1}</span><div className="node-icon"><Icon/></div><strong>{step.name}</strong><small>{step.detail}</small></button>})}</div><div className="pipeline-readout"><span>ACTIVE_STAGE / <b>{processSteps[processActive].name}</b></span><span>RELEASE_CONFIDENCE / <b>HIGH</b></span><span>MODE / <b>AUTOMATED</b></span></div></div></div></section>
       <section className="section intro" id="capabilities"><p className="eyebrow">01 — SYSTEM CAPABILITIES</p><div className="intro-grid"><h2>TOOLS ARE ONLY<br/>POWERFUL WHEN<br/><em>THEY WORK TOGETHER.</em></h2><p>I design delivery workflows that connect engineering intent with dependable cloud operations. Each layer is built to be repeatable, visible, and ready to evolve.</p></div><div className="skill-stack">{skills.map(([title, content], index) => <article key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{content}</p></div><ArrowUpRight/></article>)}</div></section>
       <section className="webstack" id="webstack"><div className="webstack-shell"><div className="stack-heading"><p className="eyebrow">02 — THE DEVOPS WEBSTACK</p><h2>ONE STACK.<br/><em>FULL CONTROL.</em></h2><p>A connected platform mindset spanning cloud, pipelines, runtime environments and operational signals.</p></div><div className="stack-interactive"><div className="stack-visual"><StackScene/><span className="stack-label label-a">SOURCE</span><span className="stack-label label-b">RELEASE</span><span className="stack-label label-c">RUNTIME</span><span className="stack-label label-d">SIGNALS</span></div><div className="stack-console"><div className="console-tabs">{(Object.keys(stackModes) as Array<keyof typeof stackModes>).map(mode => <button key={mode} onClick={() => setStackMode(mode)} className={stackMode === mode ? "selected" : ""}>{stackModes[mode].label}</button>)}</div><p className="console-kicker">{stackModes[stackMode].label} LAYER / ACTIVE</p><h3>{stackModes[stackMode].title}</h3><p className="console-text">{stackModes[stackMode].text}</p><div className="node-list">{stackModes[stackMode].nodes.map((node, index) => <span key={node}><i>{String(index + 1).padStart(2, "0")}</i>{node}</span>)}</div><div className="console-status"><i/>INTEGRATED DELIVERY LAYER</div></div></div></div></section>
       <section className="section projects" id="projects"><div className="section-head"><div><p className="eyebrow">03 — SELECTED DEPLOYMENTS</p><h2>BUILT FOR THE<br/><em>REAL WORLD.</em></h2></div><p>Projects that demonstrate the whole lifecycle: infrastructure, continuous integration, secure delivery, and signals that help systems stay healthy.</p></div><div className="project-grid">{projects.map((project, index) => { const Icon = project.icon; return <article className={index === 0 ? "project featured" : "project"} key={project.title}><div className="project-top"><span>/{project.number}</span><Icon/><a href={project.href} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} repository`}><ArrowUpRight/></a></div><div className="project-orbit"><span/><i/><b/></div><p className="project-kind">{project.kind}</p><h3>{project.title}</h3><p className="project-text">{project.text}</p><div className="tags">{project.stack.map(tag => <span key={tag}>{tag}</span>)}</div><a className="repo-link" href={project.href} target="_blank" rel="noreferrer">EXPLORE PROJECT <ArrowUpRight size={15}/></a></article>})}</div></section>
