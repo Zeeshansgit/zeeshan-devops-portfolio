@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Activity, ArrowDown, ArrowUpRight, Box, Cloud, Github, Linkedin, Mail, Menu, ShieldCheck, Terminal, X, Zap } from "lucide-react";
 import "./App.css";
+import "./animated-theme.css";
 
 const profile = {
   email: "zeeshanahmed.mohd6@gmail.com",
