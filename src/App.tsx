@@ -1,4 +1,5 @@
-import { useState, type MouseEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import * as THREE from "three";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -145,6 +146,45 @@ const projects = [
   },
 ];
 
+function InfrastructureScene() {
+  const host = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = host.current;
+    if (!container) return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+    camera.position.set(0, 0, 11);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+    const system = new THREE.Group();
+    const colour = 0xc4d8e7;
+    system.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.7, 2), new THREE.MeshBasicMaterial({ color: colour, wireframe: true, transparent: true, opacity: 0.7 })));
+    [0, 1.05, 2.1].forEach((rotation, index) => {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(2.65 + index * 0.2, 0.018, 8, 96), new THREE.MeshBasicMaterial({ color: colour, transparent: true, opacity: 0.45 - index * 0.08 }));
+      ring.rotation.set(rotation, rotation * 0.6, -rotation * 0.3);
+      system.add(ring);
+    });
+    scene.add(system);
+    const particles: number[] = [];
+    for (let i = 0; i < 85; i += 1) particles.push((Math.random() - 0.5) * 12, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 4);
+    const particleGeometry = new THREE.BufferGeometry();
+    particleGeometry.setAttribute("position", new THREE.Float32BufferAttribute(particles, 3));
+    scene.add(new THREE.Points(particleGeometry, new THREE.PointsMaterial({ color: colour, size: 0.035, transparent: true, opacity: 0.52 })));
+    const resize = () => { const { width, height } = container.getBoundingClientRect(); camera.aspect = width / height; camera.updateProjectionMatrix(); renderer.setSize(width, height); };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(container);
+    let frame = 0;
+    const render = (time: number) => { system.rotation.y = time * 0.00018; system.rotation.x = Math.sin(time * 0.00035) * 0.18; system.position.y = Math.sin(time * 0.0006) * 0.14; renderer.render(scene, camera); frame = requestAnimationFrame(render); };
+    frame = requestAnimationFrame(render);
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); particleGeometry.dispose(); renderer.dispose(); container.removeChild(renderer.domElement); };
+  }, []);
+
+  return <div className="three-scene" ref={host} aria-hidden="true" />;
+}
+
 function SectionLabel({
   index,
   children,
@@ -246,9 +286,9 @@ export default function App() {
             </h1>
 
             <p className="hero-lead">
-              I’m Zeeshan — an early-career Cloud &amp; DevOps engineer building
-              practical skills in cloud infrastructure, CI/CD automation,
-              containers, and reliable deployments.
+              I’m Zeeshan — a DevOps Engineer building reliable cloud delivery
+              systems with CI/CD automation, containers, infrastructure as code,
+              and observable deployments across Azure and AWS.
             </p>
 
             <div className="hero-actions">
@@ -278,7 +318,7 @@ export default function App() {
                 <span className="meta-key">BASED IN</span> Hyderabad, India
               </span>
               <span>
-                <span className="meta-key">FOCUS</span> Cloud &amp; DevOps roles
+              <span className="meta-key">FOCUS</span> Azure, AWS &amp; platform delivery
               </span>
             </div>
           </div>
@@ -288,6 +328,7 @@ export default function App() {
             role="img"
             aria-label="Illustration of an automated delivery pipeline"
           >
+            <InfrastructureScene />
             <div className="visual-top">
               <span>DELIVERY / PIPELINE_01</span>
               <span className="live">
@@ -475,28 +516,27 @@ export default function App() {
           </div>
         </section>
 
-        {/* INDEPENDENT PROJECT WORK — NO EMPLOYMENT HISTORY */}
+        {/* PROFESSIONAL EXPERIENCE */}
         <section className="section-wrap section-block" id="experience">
-          <SectionLabel index="03">PROJECT WORK &amp; LEARNING</SectionLabel>
+          <SectionLabel index="03">PROFESSIONAL EXPERIENCE</SectionLabel>
 
           <div className="section-heading">
             <h2>
-              Learning by doing.
+              Delivering with care.
               <br />
-              <em>Growing with every release.</em>
+              <em>Improving with every release.</em>
             </h2>
             <p>
-              Independent projects demonstrating my learning in cloud
-              infrastructure, CI/CD automation, containerization, and
-              infrastructure as code.
+              Hands-on experience delivering automated workflows, cloud-hosted
+              applications, containerized services, and practical observability.
             </p>
           </div>
 
           <div className="timeline">
             <div className="timeline-entry">
               <div className="timeline-date">
-                PORTFOLIO
-                <span>INDEPENDENT PROJECTS</span>
+                NOV 2025 — APR 2026
+                <span>NAFA BARTER PVT LTD.</span>
               </div>
 
               <div className="timeline-marker">
@@ -507,46 +547,45 @@ export default function App() {
                 <div className="timeline-heading">
                   <div>
                     <span className="entry-type">
-                      CLOUD &amp; DEVOPS PROJECTS
+                      DEVOPS ENGINEERING
                     </span>
-                    <h3>AWS &amp; DevOps projects</h3>
-                    <h4>Personal portfolio · GitHub</h4>
+                    <h3>DevOps Engineer</h3>
+                    <h4>Azure delivery, automation &amp; observability</h4>
                   </div>
                   <span className="entry-number">01</span>
                 </div>
 
                 <p>
-                  Building and documenting AWS-focused projects to deepen my
-                  understanding of infrastructure as code, container
-                  orchestration, CI/CD, GitOps, and monitoring.
+                  Designed multi-stage Azure DevOps and GitHub Actions pipelines,
+                  provisioned Azure VMs, and supported consistent application
+                  delivery across development, staging, and production.
                 </p>
 
                 <ul>
                   <li>
                     <Check size={15} aria-hidden="true" />
-                    Developing infrastructure workflows with Terraform and
-                    AWS services.
+                    Created reusable YAML templates that reduced manual deployment
+                    effort by approximately 40%.
                   </li>
                   <li>
                     <Check size={15} aria-hidden="true" />
-                    Building CI/CD workflows with GitHub Actions and Jenkins.
+                    Containerized applications with Docker and managed domain
+                    routing through Nginx Proxy Manager.
                   </li>
                   <li>
                     <Check size={15} aria-hidden="true" />
-                    Practising Docker, Kubernetes, GitOps, and monitoring
-                    through portfolio deployments.
+                    Improved system visibility with Prometheus and Grafana,
+                    alongside SonarQube quality checks.
                   </li>
                 </ul>
 
                 <div className="tag-list">
                   {[
-                    "AWS",
-                    "Terraform",
-                    "Docker",
-                    "Kubernetes",
-                    "Jenkins",
+                    "Azure DevOps",
                     "GitHub Actions",
-                    "Argo CD",
+                    "Docker",
+                    "Azure VMs",
+                    "Nginx",
                     "Prometheus",
                     "Grafana",
                   ].map((tag) => (
