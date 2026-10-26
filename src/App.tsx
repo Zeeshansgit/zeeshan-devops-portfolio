@@ -3,7 +3,6 @@ import * as THREE from "three";
 import { Activity, ArrowDown, ArrowUpRight, Box, Cloud, Github, Linkedin, Mail, Menu, ShieldCheck, Terminal, X, Zap } from "lucide-react";
 import "./App.css";
 import "./animated-theme.css";
-import "./SphereTools.css";
 
 const profile = {
   email: "zeeshanahmed.mohd6@gmail.com",
@@ -40,12 +39,6 @@ const stackModes = {
   runtime: { label: "RUNTIME", title: "Containers that stay resilient.", text: "Dockerized workloads orchestrated on Kubernetes, with GitOps principles keeping desired state clear and traceable.", nodes: ["DOCKER", "KUBERNETES", "ARGO CD", "NGINX", "REDIS"] },
   signals: { label: "SIGNALS", title: "Operations made visible.", text: "Metrics, dashboards, and actionable alerts turn runtime data into faster, more confident engineering decisions.", nodes: ["PROMETHEUS", "GRAFANA", "ALERTING", "LINUX", "BASH"] },
 } as const;
-
-const sphereTools = [
-  "CI/CD", "Docker", "Kubernetes", "Terraform", "Ansible", "Argo CD",
-  "Prometheus", "Grafana", "Loki", "EKS", "AKS", "EC2", "IAM", "VPC",
-  "RDS", "Lambda", "ECS", "CloudFront",
-];
 
 function StackScene() {
   const mount = useRef<HTMLDivElement>(null);
@@ -112,7 +105,7 @@ function CommandScene() {
     animation = requestAnimationFrame(loop);
     return () => { cancelAnimationFrame(animation); observer.disconnect(); target.removeEventListener("pointermove", move); starsGeo.dispose(); renderer.dispose(); target.removeChild(renderer.domElement); };
   }, []);
-  return <div ref={mount} className="command-scene" aria-label="Cloud and DevOps tools">{sphereTools.map((tool) => <span className="sphere-tool" key={tool}>{tool}</span>)}</div>;
+  return <div ref={mount} className="command-scene" aria-hidden="true" />;
 }
 
 export default function App() {
